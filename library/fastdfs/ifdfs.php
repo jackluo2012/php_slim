@@ -106,7 +106,7 @@ class IFdfs
 	* @param	(array)$meta			文件的附加信息,数组格式,array('hight'=>'350px','author'=>'bobo');
 	* @return	 Array			  返回包含文件组名和文件名的数组,array('group_name'=>'ab','localfile'=>'kajdsf');
 	*/
-	public function	upload_slave_filename($localfile, $group, $masterfile,$prefixname,$file_ext='png',$meta=array())
+	public function	upload_slave_filename($localfile, $group, $masterfile,$prefixname,$file_ext=null,$meta=array())
 	{
 		$bool =	$this->check_string($localfile,$group,$masterfile,$prefixname);
 		if(!$bool)	return false;
@@ -127,7 +127,7 @@ class IFdfs
 	* @param	(array)$meta			文件的附加信息,数组格式,array('hight'=>'350px','author'=>'bobo');
 	* @return	 Array			  返回包含文件组名和文件名的数组,array('group_name'=>'ab','localfile'=>'kajdsf');
 	*/
-	public function	upload_slave_filename1($localfile,$masterfile_id,$prefixname,$file_ext='png',$meta=array())
+	public function	upload_slave_filename1($localfile,$masterfile_id,$prefixname,$file_ext=null,$meta=array())
 	{
 		$bool =	$this->check_string($localfile,$masterfile_id,$prefixname);
 		if(!$bool)	return false;
@@ -147,7 +147,7 @@ class IFdfs
 	* @param	(string)$group		 文件组名
 	* @return	 Array				 返回包含文件组名和文件名的数组,array('group_name'=>'ab','filename'=>'kajdsf');
 	*/
-	public function	upload_filebuff($filebuff,$file_ext='png',$group = null,$meta	= array())
+	public function	upload_filebuff($filebuff,$file_ext,$group = null,$meta	= array())
 	{
 		$bool =	$this->check_string($filebuff,$file_ext);
 		if(!$bool)	return false;
@@ -166,7 +166,7 @@ class IFdfs
 	* @param	(string)$group		 文件组名
 	* @return	 Array				 返回包含文件组名和文件名的数组,array('group_name'=>'ab','filename'=>'kajdsf');
 	*/
-	public function	upload_slave_filebuff($filebuff,$group,$masterfile,$prefix_name=null,$file_ext='png',$meta =	array())
+	public function	upload_slave_filebuff($filebuff,$group,$masterfile,$prefix_name=null,$file_ext=null,$meta =	array())
 	{
 		$bool =	$this->check_string($filebuff,$group,$masterfile);
 		if(!$bool)	return false;
@@ -187,7 +187,7 @@ class IFdfs
 	* @param	(string)$prefixname	  扩展后缀名
 	* @return	bool		成功返回true,失败返回false;
 	*/
-	public function	delete_filename($group,$remotefile,$prefix=null,$file_ext='png')
+	public function	delete_filename($group,$remotefile,$prefix=null,$file_ext=null)
 	{
 		$bool =	$this->check_string($group,$remotefile);
 		if(!$bool)	return false;
@@ -208,7 +208,7 @@ class IFdfs
 	* @param	(string)$prefixname	  扩展后缀名
 	* @return	bool		成功返回true,失败返回false;
 	*/
-	public function	delete_filename1($masterfile_id,$prefix=null,$file_ext='png')
+	public function	delete_filename1($masterfile_id,$prefix=null,$file_ext=null)
 	{
 		$bool =	$this->check_string($masterfile_id);
 		if(!$bool)	return false;
@@ -234,7 +234,7 @@ class IFdfs
 	* @param	$download_bytes	//0	(default value)	means from the file	offset to the file end
 	* @return	bool			成功返回true,失败返回false
 	*/
-	public function	download_filename($group,$remotefile,$localfile,$prefix=null,$file_ext='png',$file_offset=0,$download_bytes=0){
+	public function	download_filename($group,$remotefile,$localfile,$prefix=null,$file_ext=null,$file_offset=0,$download_bytes=0){
 		$bool =	$this->check_string($group,$remotefile,$localfile);
 		if(!$bool)	return false;
 		if ($prefix) {
@@ -257,7 +257,7 @@ class IFdfs
 	* @param	$download_bytes	//0	(default value)	means from the file	offset to the file end
 	* @return	bool		   成功返回true,失败返回false
 	*/
-	public function	download_filename1($file_id,$localfile,$prefix=null,$file_ext='png',$file_offset=0,$download_bytes=0)
+	public function	download_filename1($file_id,$localfile,$prefix=null,$file_ext=null,$file_offset=0,$download_bytes=0)
 	{
 		$bool =	$this->check_string($file_id,$localfile);
 		if(!$bool)	return false;
@@ -301,7 +301,7 @@ class IFdfs
 	* @param	(string)$prefixname	 扩展后缀名
 	* @return	 Bool
 	*/
-	public function	file_exist($group, $remotefile,$prefix=null,$file_ext='png')
+	public function	file_exist($group, $remotefile,$prefix=null,$file_ext=null)
 	{
 		$bool =	$this->check_string($group,	$remotefile);
 		if(!$bool)	return false;
@@ -322,7 +322,7 @@ class IFdfs
 	* @param	(string)$prefixname	扩展后缀名
 	* @return	 Bool
 	*/
-	public function	file_exist1($file_id,$prefix=null,$file_ext='png')
+	public function	file_exist1($file_id,$prefix=null,$file_ext=null)
 	{
 		$bool =	$this->check_string($file_id);
 		if(!$bool)	return false;
@@ -344,7 +344,7 @@ class IFdfs
 		* @param	(string)$file_ext	   文件后缀名(这个后缀名替换掉原有文件后缀名)
 	* @return	 string
 	*/
-	public function	get_slave_filename($filename,$prefixname,$file_ext='png')
+	public function	get_slave_filename($filename,$prefixname,$file_ext=null)
 	{
 		$bool =	$this->check_string($filename,$prefixname);
 		if(!$bool)	return false;
@@ -404,7 +404,7 @@ class IFdfs
 	* @param	(string)$prefixname	 扩展后缀名
 	* @return	 bool
 	*/
-	public function	set_metadata($group, $remotefile,$metadata,$prefix=null,$file_ext='png')
+	public function	set_metadata($group, $remotefile,$metadata,$prefix=null,$file_ext=null)
 	{
 
 		$bool =	$this->check_string($group,	$remotefile,$metadata);
@@ -427,7 +427,7 @@ class IFdfs
 	* @param	(string)$prefixname	扩展后缀名
 	* @return	 bool
 	*/
-	public function	set_metadata1($file_id,$metadata,$prefix=null,$file_ext='png')
+	public function	set_metadata1($file_id,$metadata,$prefix=null,$file_ext=null)
 	{
 		$bool =	$this->check_string($file_id,$metadata);
 		if(!$bool)	return false;
@@ -449,7 +449,7 @@ class IFdfs
 	* @param	(string)$prefixname	 扩展后缀名
 	* @return	array
 	*/
-	public function	get_metadata($group, $remotefile,$prefix=null,$file_ext='png')
+	public function	get_metadata($group, $remotefile,$prefix=null,$file_ext=null)
 	{
 		$bool =	$this->check_string($group,	$remotefile);
 		if(!$bool)	return false;
@@ -470,7 +470,7 @@ class IFdfs
 	* @param	(string)$prefixname	扩展后缀名
 	* @return	array
 	*/
-	public function	get_metadata1($file_id,$prefix=null,$file_ext='png')
+	public function	get_metadata1($file_id,$prefix=null,$file_ext=null)
 	{
 		$bool =	$this->check_string($file_id);
 		if(!$bool)	return false;
@@ -619,14 +619,13 @@ class IFdfs
 		if($this->debug){
 			//调试模式下优雅输出错误信息
 			$trace = debug_backtrace();
-
+			/*
 			$trace_string	 = '';
 			foreach	($trace	as $key=>$t) {
-//				$trace_string .= '#'. $key . ' ' . $t['file'] .	'('. $t['line']	. ')' .	$t['class']	. $t['type'] . $t['function'] .	'('	. implode('.',	$t['args'])	. ')<br class="last">';
-//				$trace_string .= '#'. $key . ' ' .	$t['class']	. $t['type'] . $t['function'] .	'('	. implode('.',	$t['args'])	. ')<br class="last">';
-			}
+				$trace_string .= '#'. $key . ' ' . $t['file'] .	'('. $t['line']	. ')' .	$t['class']	. $t['type'] . $t['function'] .	'('	. implode('.',	$t['args'])	. ')<br class="last">';
+			}*/
 			$errorinfo = $this->_fdfs->get_last_error_info();
-			echo $errorinfo.''.$trace_string;exit;
+			echo $errorinfo.'';exit;
 		}
 		return false;
 	}

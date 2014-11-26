@@ -60,8 +60,8 @@ function api_notice_increment($url, $data)
 	    return $lst;
 	//    return $result;
 	}
-$url = 'http://platform.com/download/file';
-$data = array('photo_id'=>'9fa941ed227854a51edb1647387951d2');
+$url = 'http://platform.com/download/image';
+$data = array('photo_id'=>'31aa3a8b8df1fb9f6e5266afa7f0760d');
 $header = array('Appkey'=>'1119045005','Appsecret'=>'95cc8bcafc2a0d2764403b00bd0bb55b');
 //$info = api_notice_increment($url, $data);
 $info = curl_post($url, $data, $header);

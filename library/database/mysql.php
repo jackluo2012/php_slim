@@ -131,7 +131,7 @@ class Mysql implements IDB
 	public function update($table,$sets,$where){
 		$sets = $this->filterPost($table,$sets);   
         $sql = 'UPDATE '.$table.' SET '.$this->parseSets($sets).$this->parseWhere($where);   
-        return $this->execute($sql);
+        return $this->execute_update($sql);
 	}
 	/**  
     * 删除记录  
@@ -293,6 +293,28 @@ class Mysql implements IDB
 			throw new Exception("Connect Error Infomation:".$e->getMessage());
 		}
 	}
+	/**
+	 *	更新操作
+	 */
+	public function execute_update($sql=''){
+		if(!$this->connectId){
+			return false;
+		}
+		try{
+			$this->queryStr = $sql;   
+        	//释放前次的查询结果   
+        	if( !empty($this->PDOStatement) ) $this->free();
+			$result = $this->connectId->exec($sql);
+			if (false == $result) {
+				return false;
+			}
+			return $result;
+		}catch (PDOException $e){
+			//这个应该存入日志表
+			throw new Exception("Connect Error Infomation:".$e->getMessage());
+		}
+	}
+
 
 	//允许的操作
 	public function isMainIps($query){

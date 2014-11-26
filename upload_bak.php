@@ -19,7 +19,7 @@
 				}
 				curl_setopt($ch, CURLOPT_HEADER, 0);
 				curl_setopt($ch, CURLOPT_POST, 1);
-				//$data = http_build_query($data);
+				$data = http_build_query($data);
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 				curl_setopt($ch, CURLOPT_TIMEOUT, 1);// 1s to timeout.
@@ -29,29 +29,22 @@
 					return curl_error($ch);
 				}
 				$reslut = curl_getinfo($ch);
-//				print_r($reslut);
+				print_r($reslut);
 				curl_close($ch);
-/*				$info = array();
+				$info = array();
 				if($response){
 					$info = json_decode($response, true);
-				}*/
-				return $response;
+				}
+				return $info;
 			} else {
 				throw new Exception('Do not support CURL function.');
 			}
 	}
 	//*/
 	//  
-	function api_notice_increment($url, $data,$header)
+	function api_notice_increment($url, $data)
 	{
-	    $ch = curl_init();     
-	    if(is_array($header) && !empty($header)){
-			$set_head = array();
-			foreach ($header as $k=>$v){
-				$set_head[] = "$k:$v";
-			}
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $set_head);
-		}   
+	    $ch = curl_init();        
 	    curl_setopt($ch, CURLOPT_HEADER,0);
 	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
@@ -89,20 +82,11 @@
         echo $result ; //输出 页面结果
    }*/
 	
-   function upload_file($url,$filename,$path,$type,$header){
+   function upload_file($url,$filename,$path,$type){
 		$data = array(
 			'pic'=>'@'.realpath($path).";type=".$type.";filename=".$filename
 		);
 		$ch = curl_init();
-		if(is_array($header) && !empty($header)){
-			$set_head = array();
-			foreach ($header as $k=>$v){
-				$set_head[] = "$k:$v";
-			}
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $set_head);
-		}
-		curl_setopt($ch, CURLOPT_HEADER,0);
-	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_POST, true );
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -115,10 +99,8 @@
    }
 
 
-/*   $file = 'aaaa.jpg';
-   echo substr($file, strrpos($file, '.')+1);
-   exit;
-*/
+
+
 	if ($_POST) {
 		
 		// return content
@@ -126,11 +108,13 @@
 		Array ( [pic] => Array ( [name] => 232.jpg [info] => Array ( [group_name] => group3 [filename] => M00/00/00/o4YBAFRu-qaAJPWDAAC1vHtKL0E331.jpg [photo_id] => 31aa3a8b8df1fb9f6e5266afa7f0760d ) ) ) 
 		Array ( [pic] => Array ( [info] => Array ( [photo_id] => 31aa3a8b8df1fb9f6e5266afa7f0760d [img] => M00/00/00/o4YBAFRu-qaAJPWDAAC1vHtKL0E331.jpg [file_name] => 232.jpg [group] => group3 ) ) )
 		*/	
-		
 
-		
+
+
+		//$url = 'http://platform.com/upload/image';
+		$url = 'http://platform.com/upload/stream';
 		//
-//		$path = $_SERVER['DOCUMENT_ROOT'];
+		$path = $_SERVER['DOCUMENT_ROOT'];
 /*
 		print_r($_FILES);
 		exit;
@@ -138,30 +122,17 @@
 		//$filename = $path."/232.jpg";
 		//upload tmp
 		//single 
-		//*
-		// 流式上传
-		$url = 'http://platform.com/upload/stream';
 		$tmpname = $_FILES['fname']['name'];
 		$tmpfile = $_FILES['fname']['tmp_name'];
 		$tmpType = $_FILES['fname']['type'];
-		$ext = substr($tmpname, strrpos($tmpname, '.')+1);
-		$md5file = md5_file($tmpfile);
 		//	echo $tmpType;
 		//upload_file($url,$tmpname,$tmpfile,$tmpType);
-		$header = array(
-						'Appkey'=>'1119045005',
-						'Appsecret'=>'95cc8bcafc2a0d2764403b00bd0bb55b'
-					);
-		$data   = array(
-						'path'=>file_get_contents($tmpfile),
-						'ext'=>$ext,
-						'filename'=>$tmpname,
-						'md5file'=>$md5file,
-					);
-		$info = curl_post($url,$data,$header);
-		// Array ( [group_name] => group1 [filename] => M00/00/00/wKgBCFRzBVyANAPVAAEe10UotHQ673.jpg 
+		
+		//$info = curl_post($url,array('path'=>file_get_contents($tmpfile),'ext'=>'jpg'));
+		$info = api_notice_increment($url,array('path'=>file_get_contents($tmpfile),'ext'=>'jpg'));
+
 		print_r($info);
-		//*/	
+
 		// multi
 /*
 		foreach($_FILES as $key => $val)
@@ -181,6 +152,9 @@
 			}
 		}
 */
+
+
+
 		/*
 		$data = array(
 				'path'=>"@$path/232.jpg",
@@ -189,29 +163,18 @@
 		*/
 		//'pic'=>'@/tmp/tmp.jpg', 'filename'=>'tmp'
 		//$data = array('pic'=>"@$filename", 'filename'=>'tmp');
-		/*
+/*
 		$data = array(
 			'uid'	=>	10086,
 			'pic'	=>	'@$tmpfile'.';type='.$tmpType
 		);
 		$info = api_notice_increment($url, $data);
-		*/
+*/
 		//$info = curl_post($url, $data);
 		//$info = api_notice_increment($url, $data);
-		// 传统式上传
-		/*
-		$url = 'http://platform.com/upload/image';	
-		$tmpname = $_FILES['fname']['name'];
-		$tmpfile = $_FILES['fname']['tmp_name'];
-		$tmpType = $_FILES['fname']['type'];
-		$header = array(
-						'Appkey'=>'1119045005',
-						'Appsecret'=>'95cc8bcafc2a0d2764403b00bd0bb55b'
-					);
-		$info = upload_file($url,$tmpname,$tmpfile,$tmpType,$header);
-		print_r($info);
+		//upload_file($url,$tmpfile);
+		//print_r($info);
 		exit;
-		*/
 /*
 		$file = 'H:\www\test\psuCARGLSPA-pola.jpg'; //要上传的文件
 		$src = upload_curl_pic($file);

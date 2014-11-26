@@ -85,7 +85,8 @@ $app->group($route,function() use ($app,$module,$route,$uri,$dir){
 $app->get(
     '/',
     function () use ($app,$module) {
-//      echo 'Hello World';
+        
+        echo 'Hello World';
         /*
         $config = array(
             'tracker_host'   => '192.168.2.230',// 默认的FastDFS的地址
@@ -95,7 +96,7 @@ $app->get(
         $fastdfs = IFdfs::getInstance($config);
         var_dump($fastdfs);
         //*/
-        //*
+        /*
         $config = Config::get('fastDFS');
         //print_r($config);
         $fastdfs = IFdfs::getInstance($config);
