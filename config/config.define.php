@@ -19,4 +19,7 @@ define ('ERROR_CODE_DOWNLOAD_DATA_NOT_EXIST',0x0012); // 要下载的数据不�
 define ('ERROR_CODE_UPLOAD_EXTENDS_NOT_ALLOW',0x0013); // 不允许上传的类型
 define ('ERROR_CODE_UPLOAD_DATA_STREAM_ERROR',0x0014); // 不允许上传的数据出错
 //company 
-//define ('ERROR_CODE_COMPANY_DATA_STREAM_ERROR',0x0015); // 不允许上传的数据出错
+define ('ERROR_CODE_COMPANY_DATA_STREAM_ERROR',0x0015); // 不允许上传的数据出错
+//upgrade
+define ('ERROR_CODE_UPGRADE_DATA_NOT_ERROR',0x0016); // upgrade 出错
+//define ('ERROR_CODE_UPGRADE_DATA_SUCCESSFUL',0x0016); // upgrade 出错

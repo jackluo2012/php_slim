@@ -17,9 +17,15 @@ $app->post("/create", function () use($app, $module) {
 	$comp_name = getstr($app->request()->post('comp_name'),20);
 	$phone_number = getstr($app->request()->post('phone_number'),11);
 	$comp_address = getstr($app->request()->post('comp_address'),50);
-	
+	$db_host = getstr($app->request()->post('db_host'),10);
+	$db_user = getstr($app->request()->post('db_user'),10);
+	$db_pwd = getstr($app->request()->post('db_pwd'),20);
+	$db_port = getstr($app->request()->post('db_port'),10);
+	$db_name = getstr($app->request()->post('db_name'),20);
+	// maybe is array
 	if(empty($user_name) || empty($password) || empty($area_code) ||empty($domain_prefix)
-		|| empty($manger_name) || empty($phone_number) || empty($comp_address)){
+		|| empty($manger_name) || empty($phone_number) || empty($comp_address ) || empty($db_host) 
+		|| empty($db_user) || empty($db_name) || empty($db_port) || empty($db_name)){
 		$app->applyHook(OUT_PUT,array('error'=>ERROR_CODE_PARAMS_NOT_COMPLETE));	
 	}
 	//检查用户名是否已用
@@ -44,7 +50,15 @@ $app->post("/create", function () use($app, $module) {
 		'online'=>time(),
 		'ip'=>getip(),
 	);
-	$result = $model->saveCompany($setarr);//保存进数据库
+	$db_info = array(
+		'db_host'=>$db_host,
+		'db_user'=>$db_user,
+		'db_pwd' =>$db_pwd,
+		'db_port'=>$db_port,
+		'db_name'=>$db_name
+	);
+
+	$result = $model->saveCompany($setarr,$db_info);//保存进数据库
 	if($result){
 		$app->applyHook(OUT_PUT,array('error'=>ERROR_CODE_OK));
 	}else{
@@ -63,8 +77,13 @@ $app->post("/change", function () use($app, $module) {
 	$phone_number = getstr($app->request()->post('phone_number'),11);
 	$comp_address = getstr($app->request()->post('comp_address'),50);
 	$comp_status = $app->request()->post('comp_status');//获取状态
-
-	$setarr = array();
+	$db_host = getstr($app->request()->post('db_host'),10);
+	$db_user = getstr($app->request()->post('db_user'),10);
+	$db_pwd = getstr($app->request()->post('db_pwd'),20);
+	$db_port = getstr($app->request()->post('db_port'),10);
+	$db_name = getstr($app->request()->post('db_name'),20);
+	
+	$setarr = $db_info= array();
 	//参数检查
 	if(empty($comp_id)){
 		$app->applyHook(OUT_PUT,array('error'=>ERROR_CODE_PARAMS_NOT_COMPLETE));	
@@ -94,12 +113,30 @@ $app->post("/change", function () use($app, $module) {
 	}else if(!empty($comp_status)){
 		$setarr['status']=$comp_status;
 	}
-	$result = null;
+	if (!empty($db_host)) {
+		$db_info['db_host'] = $db_host;
+	}
+	if (!empty($db_user)) {
+		$db_info['db_user'] = $db_user;
+	}
+	if (!empty($db_pwd)) {
+		$db_info['db_pwd'] = $db_pwd;
+	}
+	if (!empty($db_name)) {
+		$db_info['db_name'] = $db_name;
+	}
+	if (!empty($db_port)) {
+		$db_info['db_port'] = $db_port;
+	}
+	$result = $mysql_result =  null;
 	//检查公司信息是否存在
 	if($setarr){
 		$result = $model->save($setarr,array('comp_id'=>$comp_id));//保存进数据库
 	}
-	if($result){
+	if($db_info){
+		$mysql_result = $model->save_mysql($db_info,array('comp_id'=>$comp_id));//保存进数据库
+	}
+	if($result && $mysql_result){
 		$app->applyHook(OUT_PUT,array('error'=>ERROR_CODE_OK));
 	}else{
 		$app->applyHook(OUT_PUT,array('error'=>ERROR_CODE_ERROR));

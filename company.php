@@ -42,7 +42,7 @@ function curl_post($url, $data, $header = array()){
 		}
 }
 /*
-1. 创建 
+//1. 创建 
 $url = 'http://platform.com/company/create';
 $header = array('Appkey'=>'1119045005','Appsecret'=>'95cc8bcafc2a0d2764403b00bd0bb55b');
 $data = array(
@@ -53,12 +53,19 @@ $data = array(
 		'manger_name'=>'罗永浩',//管理者名字
 		'comp_name'=>'锤子科技',//公司名字
 		'phone_number'=>'132281918931',//联系电话
-		'comp_address'=>'成都市成华区东桂小区4号园'//地址
+		'comp_address'=>'成都市成华区东桂小区4号园',//地址
+		// mysql databases info
+		'db_host'=>'127.0.0.1',
+		'db_user'=>'root',
+		'db_pwd'=>'admin',
+		'db_port'=>'3306',
+		'db_name'=>'platform_test'
 	);
 $result = curl_post($url, $data, $header);
 print_r($result);
-*/
+//*/
 //修改
+//*
 $url = 'http://platform.com/company/change';
 $header = array('Appkey'=>'1119045005','Appsecret'=>'95cc8bcafc2a0d2764403b00bd0bb55b');
 $data = array(
@@ -68,8 +75,9 @@ $data = array(
 		'comp_name'=>'锤子科技',//公司名字
 		'phone_number'=>'13228191831',//联系电话
 		'comp_address'=>'成都市成华区东桂小区4号园',//地址
-		'comp_status'=>'0'   //状态
+		'comp_status'=>'0',   //状态
+		'db_name'=>'platform_123'
 	);
 $result = curl_post($url, $data, $header);
 print_r($result);
-
+//*/

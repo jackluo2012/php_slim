@@ -6,7 +6,7 @@
 /**
  *	用户信息
  */
-$app->post("/image", function () use($app, $module) {
+$app->post("/file", function () use($app, $module) {
 	
 	$photoObj = $module->loadModule('upload/photomodel');//$module->loadModule('upload/photoModel');
 	$info = $photoObj->run();

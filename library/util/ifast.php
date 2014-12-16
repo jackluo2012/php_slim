@@ -174,7 +174,7 @@ class IFdfs
 		if($file_info){
 			return $file_info;
 		}else{
-		$this->halt();
+			$this->halt();
 		}
 	}
 

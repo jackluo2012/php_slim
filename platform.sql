@@ -78,7 +78,6 @@ CREATE TABLE `company` (
   `comp_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '公司ID',
   `user_name` varchar(20) NOT NULL COMMENT '临时用户名',
   `password` varchar(20) NOT NULL COMMENT '临时密码',
-  `data_name` varchar(10) NOT NULL COMMENT '数据库名',
   `domain_prefix` varchar(10) NOT NULL COMMENT '域名前缀',
   `area_code` varchar(10) NOT NULL COMMENT '地区码',
   `comp_name` varbinary(20) NOT NULL COMMENT '公司名',
@@ -92,7 +91,23 @@ CREATE TABLE `company` (
   KEY `domain_prefix` (`domain_prefix`),
   KEY `user_name` (`user_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100008 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+DROP TABLE IF EXISTS `company_mysql`;
+
+CREATE TABLE `company_mysql` (
+  `cm_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mysql_ID',
+  `comp_id` int(11) NOT NULL COMMENT '公司ID',
+  `db_host` varchar(32) NOT NULL COMMENT '数据库HOST',
+  `db_user` varchar(10) NOT NULL COMMENT '数据库User',
+  `db_pwd` varchar(32) NOT NULL COMMENT '数据库pwd',
+  `db_name` varchar(15) NOT NULL COMMENT '数据库name',
+  `db_port` varchar(6) NOT NULL COMMENT '数据库port',
+  PRIMARY KEY (`cm_id`),
+  KEY `comp_id` (`comp_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
 
 --
 -- Dumping data for table `company`

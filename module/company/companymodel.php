@@ -9,6 +9,7 @@ class CompanyModel extends Module
 	 *	init 初始化
 	 */
 	private $table = 'company';
+	private $table_mysql = 'company_mysql';
 	function __construct(){
 		parent::__construct();
 	}
@@ -26,19 +27,33 @@ class CompanyModel extends Module
 		return $this->_db->insert($this->table,$data);
 	}
 
-	function saveCompany($data){
+	function saveCompany($data,$db_info){
 		//加入事务
 		$this->_db->startTrans();
 		try {
 			$return_id = $this->save($data);
-			$prefix = 'fro_'.$return_id;
-			$this->save(array('data_name'=>$prefix),array('comp_id'=>$return_id));			
+			$db_info['comp_id'] = $return_id;
+			$this->save_mysql($db_info);//save mysql			
 			return $this->_db->commit();	
 		} catch (Exception $e) {
 			return $this->_db->rollback();
 		}
 		return false;
 	}
+	/**
+	 *	保存mysql_info
+	 *	
+	 */
+	function save_mysql($data,$where=null){
+		//设置缓存失效
+//		$key = Cache::key('cdomain');
+//		$this->_cache->remove($key);
+		if($where){
+			return $this->_db->update($this->table_mysql,$data,$where);
+		}
+		return $this->_db->insert($this->table_mysql,$data);
+	}
+
 	/**
 	 *	检查用户名是否已存在
 	 */

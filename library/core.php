@@ -120,6 +120,8 @@ class Core {
         'ITime'				=>	'util/itime.php',
         'IFile'				=>	'util/ifile.php',
         'IFilter'			=>	'util/ifilter.php',
+        'IMysqlDiff'		=>	'util/imysqldiff.php',
+        'IUpgradeDB'		=>	'util/iupgradedb.php',
         'ImagickService'	=>	'util/imagickservice.php',
         'IFdfs'				=>	'util/ifast.php',
         'Config'			=>	'config.php',
