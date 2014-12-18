@@ -4,7 +4,7 @@
  * author jackluo
  * net.webjoy@gmail.com
  */
-define ('ERROR_CODE_OK',0x0001); // 成功
+define ('ERROR_CODE_OK',0x0000); // 成功
 define ('ERROR_CODE_ERROR',0x0002); // 保存失败
 define ('ERROR_CODE_NOKNOW',0x0003); // 未知
 define ('ERROR_CODE_PARAMS_NOT_COMPLETE',0x0004); // 参数不完整
@@ -23,3 +23,5 @@ define ('ERROR_CODE_COMPANY_DATA_STREAM_ERROR',0x0015); // 不允许上传的数
 //upgrade
 define ('ERROR_CODE_UPGRADE_DATA_NOT_ERROR',0x0016); // upgrade 出错
 //define ('ERROR_CODE_UPGRADE_DATA_SUCCESSFUL',0x0016); // upgrade 出错
+//domain
+define ('ERROR_CODE_DOMAIN_DATA_EMPTY',0x0017); // empty 出错

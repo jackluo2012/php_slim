@@ -43,41 +43,10 @@ function curl_post($url, $data, $header = array()){
 }
 //*
 //1. 创建 
-$url = 'http://platform.com/company/create';
+$url = 'http://platform.com/domain/find';
 $header = array('Appkey'=>'1119045005','Appsecret'=>'95cc8bcafc2a0d2764403b00bd0bb55b');
 $data = array(
-		'user_name'=>'jackluo', //用户名
-		'password'=>'jackluo',	//密码
-		'area_code'=>'101010100', //地区码,要根据 地区表
-		'domain'=>'luo', //域名前缀
-		'manger_name'=>'罗永浩',//管理者名字
-		'comp_name'=>'锤子科技',//公司名字
-		'phone_number'=>'132281918931',//联系电话
-		'comp_address'=>'成都市成华区东桂小区4号园',//地址
-		// mysql databases info
-		'db_host'=>'127.0.0.1',
-		'db_user'=>'root',
-		'db_pwd'=>'admin',
-		'db_port'=>'3306',
-		'db_name'=>'platform_test'
+		'domain'=>'luo.fromai.cn', //用户名
 	);
 $result = curl_post($url, $data, $header);
 print_r($result);
-//*/
-//修改
-/*
-$url = 'http://platform.com/company/change';
-$header = array('Appkey'=>'1119045005','Appsecret'=>'95cc8bcafc2a0d2764403b00bd0bb55b');
-$data = array(
-		'comp_id'=>'1', //用户名
-		'area_code'=>'101010100', //地区码,要根据 地区表
-		'manger_name'=>'罗永浩',//管理者名字
-		'comp_name'=>'锤子科技',//公司名字
-		'phone_number'=>'13228191831',//联系电话
-		'comp_address'=>'成都市成华区东桂小区4号园',//地址
-		'comp_status'=>'0',   //状态
-		'db_name'=>'platform_123'
-	);
-$result = curl_post($url, $data, $header);
-print_r($result);
-//*/

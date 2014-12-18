@@ -30,7 +30,7 @@ return array(
         'authinfo'    => 'a:info',
 
         //Company 表
-        'cdomain'  =>  'c:domain',
+        
 
         //User 表
         'userinfo'     => 'u:info',
@@ -39,6 +39,9 @@ return array(
         
         // goods_photo
         'photoinfo'    => 'p:info',   
+
+        // domain 
+        'cdomain'  =>  'c:domain',
 
     )
 );

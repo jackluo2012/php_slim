@@ -160,7 +160,12 @@ class RedisCluster implements ICache
     	}
     	return $this->_connectRedis($key)->hgetAll($name);
     }
-
+    /**
+     *  get all hash opeation
+     */
+    public function hGetAll($key){
+        return $this->_connectRedis($key)->hgetAll($key);
+    }
     /**
      *	delete hash opeation
      */
@@ -173,14 +178,14 @@ class RedisCluster implements ICache
     /**
      * Transaction start
      */
-    public function multi(){
+    public function multi($key){
     	return $this->_connectRedis($key)->multi();	
     }
     /**
      * Transaction send
      */
 
-    public function exec(){
+    public function exec($key){
     	return $this->_connectRedis($key)->exec();	
     }
     /**

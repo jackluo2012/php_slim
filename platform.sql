@@ -80,6 +80,7 @@ CREATE TABLE `company` (
   `password` varchar(20) NOT NULL COMMENT '临时密码',
   `domain_prefix` varchar(10) NOT NULL COMMENT '域名前缀',
   `area_code` varchar(10) NOT NULL COMMENT '地区码',
+  `db_name` varchar(15) NOT NULL COMMENT '数据库name',
   `comp_name` varbinary(20) NOT NULL COMMENT '公司名',
   `manger_name` varchar(15) NOT NULL COMMENT '负责人名字',
   `phone_number` varchar(11) NOT NULL COMMENT '电话',

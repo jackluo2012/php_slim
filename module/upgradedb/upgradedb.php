@@ -20,7 +20,8 @@ $app->post("/file", function () use($app, $module) {
 /*
 	echo 1212;
 	exit;
-*/	$path = $_FILES['pic']['tmp_name'];
+*/	
+	$path = $_FILES['pic']['tmp_name'];
 	
 	$upgradeobj = $module->loadModule('upgradedb/upgradedbmodel');
 	$result = $upgradeobj->upgrade($path);

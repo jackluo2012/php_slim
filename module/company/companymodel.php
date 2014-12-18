@@ -69,7 +69,7 @@ class CompanyModel extends Module
 	 */
 	function getDomainExist($domain){
 
-		$info = $this->_db->getRow("SELECT COUNT(*) AS total FROM `".$this->table."` WHERE `domain_prefix`='{$domain}'");
+		$info = $this->_db->getRow("SELECT COUNT(*) AS total FROM `".$this->table."` WHERE `domain`='{$domain}'");
 		if($info['total'] == '0'){
 			return TRUE;
 		}

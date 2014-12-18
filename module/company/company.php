@@ -12,18 +12,18 @@ $app->post("/create", function () use($app, $module) {
 	$user_name = getstr($app->request()->post('user_name'),20);//用户名
 	$password = getstr($app->request()->post('password'),20);
 	$area_code = getstr($app->request()->post('area_code'),10);//地区码
-	$domain_prefix = getstr($app->request()->post('domain_prefix'),10);//域名前缀
+	$domain = getstr($app->request()->post('domain'),24);//域名前缀
 	$manger_name = getstr($app->request()->post('manger_name'),15);
 	$comp_name = getstr($app->request()->post('comp_name'),20);
 	$phone_number = getstr($app->request()->post('phone_number'),11);
 	$comp_address = getstr($app->request()->post('comp_address'),50);
-	$db_host = getstr($app->request()->post('db_host'),10);
+	$db_host = getstr($app->request()->post('db_host'),32);
 	$db_user = getstr($app->request()->post('db_user'),10);
-	$db_pwd = getstr($app->request()->post('db_pwd'),20);
-	$db_port = getstr($app->request()->post('db_port'),10);
-	$db_name = getstr($app->request()->post('db_name'),20);
+	$db_pwd = getstr($app->request()->post('db_pwd'),32);
+	$db_port = getstr($app->request()->post('db_port'),6);
+	$db_name = getstr($app->request()->post('db_name'),30);
 	// maybe is array
-	if(empty($user_name) || empty($password) || empty($area_code) ||empty($domain_prefix)
+	if(empty($user_name) || empty($password) || empty($area_code) ||empty($domain)
 		|| empty($manger_name) || empty($phone_number) || empty($comp_address ) || empty($db_host) 
 		|| empty($db_user) || empty($db_name) || empty($db_port) || empty($db_name)){
 		$app->applyHook(OUT_PUT,array('error'=>ERROR_CODE_PARAMS_NOT_COMPLETE));	
@@ -39,10 +39,10 @@ $app->post("/create", function () use($app, $module) {
 	
 	$setarr = array(
 		'user_name'=>$user_name,
-		'password'=>$password,
+		'password'=>md5($password),
 		'area_code'=>$area_code,
 		'comp_name'=>$comp_name,
-		'domain_prefix'=>$domain_prefix,
+		'domain'=>$domain,
 		'manger_name'=>$manger_name,
 		'phone_number'=>$phone_number,
 		'comp_address'=>$comp_address,
@@ -73,15 +73,17 @@ $app->post("/change", function () use($app, $module) {
 	$comp_id = intval($app->request()->post('comp_id'));//公司ID
 	$area_code = getstr($app->request()->post('area_code'),10);//地区码
 	$manger_name = getstr($app->request()->post('manger_name'),15);
+	$password = getstr($app->request()->post('password'),32);
 	$comp_name = getstr($app->request()->post('comp_name'),20);
 	$phone_number = getstr($app->request()->post('phone_number'),11);
+	$domain = getstr($app->request()->post('domain'),24);//域名前缀
 	$comp_address = getstr($app->request()->post('comp_address'),50);
 	$comp_status = $app->request()->post('comp_status');//获取状态
-	$db_host = getstr($app->request()->post('db_host'),10);
+	$db_host = getstr($app->request()->post('db_host'),32);
 	$db_user = getstr($app->request()->post('db_user'),10);
-	$db_pwd = getstr($app->request()->post('db_pwd'),20);
-	$db_port = getstr($app->request()->post('db_port'),10);
-	$db_name = getstr($app->request()->post('db_name'),20);
+	$db_pwd = getstr($app->request()->post('db_pwd'),32);
+	$db_port = getstr($app->request()->post('db_port'),6);
+	$db_name = getstr($app->request()->post('db_name'),30);
 	
 	$setarr = $db_info= array();
 	//参数检查
@@ -99,6 +101,10 @@ $app->post("/change", function () use($app, $module) {
 	if (!empty($comp_name)) {
 		$setarr['comp_name'] = $comp_name;	
 	}
+	if (!empty($password)) {
+		$setarr['password'] = md5($password);	
+	}
+	
 	if (!empty($manger_name)) {
 		$setarr['manger_name'] = $manger_name;	
 	}
@@ -107,6 +113,9 @@ $app->post("/change", function () use($app, $module) {
 	}
 	if (!empty($comp_address)) {
 		$setarr['comp_address'] = $comp_address;	
+	}
+	if (!empty($domain)) {
+		$setarr['domain'] = $domain;	
 	}
 	if ($comp_status ==='0') {
 		$setarr['status']='0';
