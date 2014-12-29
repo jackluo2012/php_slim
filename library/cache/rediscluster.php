@@ -41,7 +41,9 @@ class RedisCluster implements ICache
      *  _connectRedis
 	 */
 	private function _connectRedis($key){
-		$this->_nodeData = array_keys($this->_node);
+		
+        //*
+        $this->_nodeData = array_keys($this->_node);
         $this->_keyNode = sprintf("%u", crc32($key));
         $nodeKey = $this->_findServerNode();
         //如果超出环，从头再用二分法查找一个最近的，然后环的头尾做判断，取最接近的节点
@@ -52,20 +54,24 @@ class RedisCluster implements ICache
 		    	$nodeKey = $nodeKey2;
 		    }
         }
+
         list($config, $num) = explode('_', $this->_node[$nodeKey]);
         if (!$config){
         	throw new Exception('Cache config Error');	
         } 
+
         if (!isset($this->_redis[$config])) {
             $this->_redis[$config] =  new Redis;
             list($host, $port) = explode(':', $config);
             try{
+
                 $this->_redis[$config]->pconnect($host,$port);    
             }catch(Exception $e){
                 throw new Exception('Cache config Error '.$e->getMessage());  
             }
             
         }
+        //*/
         return $this->_redis[$config];
 	}
 	/**
@@ -142,8 +148,9 @@ class RedisCluster implements ICache
      *	set hash opeation
      */
     public function hset($name,$key,$value){
+
     	if(is_array($value)){
-    		return $this->_connectRedis($key)->hset($name,$key,serialize($value));	
+        	return $this->_connectRedis($key)->hset($name,$key,serialize($value));	
     	}
     	return $this->_connectRedis($key)->hset($name,$key,$value);
     }

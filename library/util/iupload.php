@@ -246,6 +246,9 @@
 		                else
 		                {
                             $fileInfo[0]['info']  =  $this->moveToRemote($_FILES[$field]['tmp_name'],$fileext);
+                            $fileInfo[0]['info']['ext']   =  $fileext;
+                            $fileInfo[0]['info']['name']   =  $_FILES[$field]['name'];
+
 		                }
                 	}
             	}

@@ -31,7 +31,7 @@ class StreamModel extends Module
 	 *	$ext  文件扩长名
 	 *  $filename 文件名
 	 */
-	function saveStream($buff,$ext,$filename,$md5file){
+	function saveStream($buff,$ext,$filename,$md5file,$comp_id){
 
 		if(!$this->checkType($ext)){
 			return '10001';
@@ -47,9 +47,11 @@ class StreamModel extends Module
 			if($info){
 				$insertData = array(
 					'photo_id'  	=> $md5file,
+					'comp_id'		=> $comp_id,
 					'img' 			=> $info['filename'],
 					'file_name' 	=> $filename,
 					'group' 		=> $info['group_name'],
+					'ext'			=>$ext,
 				);
 				//不处理返回的值了
 				$this->insert($insertData);
@@ -73,37 +75,5 @@ class StreamModel extends Module
 	private function insert($insertData)
 	{
 		return $this->_db->insert('goods_photo',$insertData);
-	}
-
-	/**
-	 *	保存用户名
-	 *	
-	 */
-	function saveUser($data,$where=null){
-		if($where){
-			return $this->_db->update('author',$data,$where);
-		}
-		return $this->_db->insert('author',$data);
-	}
-	/**
-	 *	返回一条数据
-	 */
-	function getUserById($id){
-		$key = Cache::key('userinfo');
-		$id = intval($id);
-		return $this->_db->getRow("SELECT * FROM `author` WHERE `id`={$id}");
-	}
-	/**
-	 *	返回一组数据
-	 */
-	function getAllUser(){
-		return $this->_db->getAll("SELECT * FROM `author`");
-	}
-	/**
-	 *	删除数据
-	 */
-	function removeUser($id){
-
-		return $this->_db->remove('author',array('id'=>$id,'name'=>'jackluo'));
 	}
 }

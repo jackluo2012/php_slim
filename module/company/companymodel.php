@@ -79,14 +79,33 @@ class CompanyModel extends Module
 	 *　根据ID获取公司信息
 	 */
 	function getCompanyInfo($comp_id){
-		
-		return $this->_db->getRow("SELECT * FROM `".$this->table."` WHERE `comp_id`='{$comp_id}'");
+		return $this->_db->getRow("SELECT * FROM `".$this->table."` c LEFT JOIN `".$this->table_mysql."` cm ON c.`comp_id`=cm.`comp_id` WHERE c.`comp_id`='{$comp_id}'");
 	}
 	/**
 	 *	获取公司列表
 	 */
-	function getCompanyList(){
+	function getCompanyList($page,$pagesize,$wheresqlarr){
 
-		return $this->_db->getAll("SELECT * FROM `".$this->table."`");
+		$list = array();
+		$where = $comma = '';
+		if(empty($wheresqlarr)) {
+			$where = '1';
+		} elseif(is_array($wheresqlarr)) {
+			foreach ($wheresqlarr as $key => $value) {
+				$where .= $comma.'`'.$key.'`'.'=\''.$value.'\'';
+				$comma = ' AND ';
+			}
+		} else {
+			$where = $wheresqlarr;
+		}
+		
+		$company = $this->_db->getRow("SELECT count(*) AS total FROM `".$this->table."` WHERE ".$where);
+		$total = $company['total'];
+		if ($total<0) {
+			return array('total'=>0,'data'=>$list);
+		}
+		$list = $this->_db->getAll("SELECT * FROM `".$this->table."` WHERE ".$where." ORDER BY `comp_id` DESC limit ".$pagesize*($page-1).",$pagesize");
+
+		return array('total'=>$total,'data'=>$list);
 	}
 }

@@ -26,10 +26,10 @@ class DomainModel extends Module
 		$key = Cache::key('cdomain');
 		$domainlist = $this->_cache->hGetAll($key);
 		if (empty($domainlist)) {
-			$temparr = $this->_db->getAll("SELECT c.`domain`,cm.* FROM `company` c LEFT JOIN `company_mysql` cm ON c.`comp_id`=cm.`comp_id`");		
+			$temparr = $this->_db->getAll("SELECT c.`domain`,cm.* FROM `company` c LEFT JOIN `company_mysql` cm ON c.`comp_id`=cm.`comp_id` WHERE c.`status`='1'");	
 			$this->_cache->multi($key);
 			foreach ($temparr as $value) {
-				$this->_cache->hset($key,$value['domain'],$value);
+				$resutl = $this->_cache->hset($key,$value['domain'],$value);
 				$domainlist[$value['domain']] = serialize($value);
 			}
 			$this->_cache->exec($key);

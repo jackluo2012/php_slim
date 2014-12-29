@@ -8,8 +8,22 @@
  */
 $app->post("/file", function () use($app, $module) {
 	
-	$photoObj = $module->loadModule('upload/photomodel');//$module->loadModule('upload/photoModel');
-	$info = $photoObj->run();
+	$photoObj = $module->loadModule('upload/photomodel');
+	$comp_id = intval($app->request()->post('comp_id'));	//公司ID
+	//数据失败
+	if(empty($comp_id)) {
+		$app->applyHook(OUT_PUT,array('error'=>ERROR_CODE_PARAMS_NOT_COMPLETE));
+	}
+	/**
+	 * 检查公司信息是否存在
+	 */
+	$companyObj = $module->loadModule('company/companymodel');
+	$companyinfo = $companyObj->getCompanyInfo($comp_id);
+	if (empty($companyinfo)) {
+		$app->applyHook(OUT_PUT,array('error'=>ERROR_CODE_DATA_INFO_NOT_EXIST));	
+	}
+	$info = $photoObj->run($comp_id);
+
 	$app->applyHook(OUT_PUT,array('data'=>$info));
 	/*
 	Array ( [fname] => 
@@ -43,14 +57,23 @@ Array
 		$ext  = $req->post('ext');	//文件扩长名
 		$filename = $req->post('filename'); //文件名
 		$md5file = getstr($req->post('md5file'),32); //文件md5码
+		$comp_id = intval($req->post('comp_id'));	//公司ID
 		//文件对象 
 		$streamObj = $module->loadModule('upload/streammodel');
-		if (empty($buff) || empty($ext) || empty($md5file) || empty($filename)) {
+		$companyObj = $module->loadModule('company/companymodel');
+		if (empty($buff) || empty($ext) || empty($md5file) || empty($filename) || empty($comp_id)) {
 			$app->applyHook(OUT_PUT,array('error'=>ERROR_CODE_PARAMS_NOT_COMPLETE));
 		}
 
+		/**
+		 * 检查公司信息是否存在
+		 */
+		$companyinfo = $companyObj->getCompanyInfo($comp_id);
+		if (empty($companyinfo)) {
+			$app->applyHook(OUT_PUT,array('error'=>ERROR_CODE_DATA_INFO_NOT_EXIST));	
+		}
 
-		$result = $streamObj->saveStream($buff,$ext,$filename,$md5file);
+		$result = $streamObj->saveStream($buff,$ext,$filename,$md5file,$comp_id);
 		if ($result == '10001') {
 			$app->applyHook(OUT_PUT,array('error'=>ERROR_CODE_UPLOAD_EXTENDS_NOT_ALLOW));	
 		}else if($result == '10002'){

@@ -279,6 +279,8 @@ class Mysql implements IDB
 		if(!$this->connectId){
 			return false;
 		}
+//		print_r($sql);
+//		exit;
 		try{
 			$this->queryStr = $sql;   
         	//释放前次的查询结果   
